@@ -1,4 +1,4 @@
-package org.saver.project.data.db
+package org.saver.project.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

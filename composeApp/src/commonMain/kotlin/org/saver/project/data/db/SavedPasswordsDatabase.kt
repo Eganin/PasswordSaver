@@ -3,6 +3,7 @@ package org.saver.project.data.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
+import org.saver.project.data.model.SavedPasswordDBModel
 
 const val DB_VERSION = 1
 
