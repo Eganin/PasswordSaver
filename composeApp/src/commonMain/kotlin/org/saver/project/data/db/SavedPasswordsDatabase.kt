@@ -1,5 +1,6 @@
 package org.saver.project.data.db
 
+import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
@@ -17,6 +18,7 @@ expect object AppDatabaseConstructor : RoomDatabaseConstructor<SavedPasswordsDat
     version = DB_VERSION,
     exportSchema = false
 )
+@ConstructedBy(AppDatabaseConstructor::class)
 abstract class SavedPasswordsDatabase : RoomDatabase() {
     abstract fun savedPasswordsDao(): SavedPasswordsDao
 }

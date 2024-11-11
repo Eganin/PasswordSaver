@@ -9,7 +9,7 @@ import org.saver.project.data.model.SavedPasswordDBModel
 @Dao
 interface SavedPasswordsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSavedPassword(savedPassword: SavedPasswordDBModel): SavedPasswordDBModel?
+    suspend fun insertSavedPassword(savedPassword: SavedPasswordDBModel)
 
     @Query("SELECT * FROM saved_passwords")
     suspend fun getAllSavedPasswords(): List<SavedPasswordDBModel>

@@ -37,9 +37,9 @@ internal class LocalSavedPasswordsDataStoreImpl(
     override suspend fun insertSavedPasswords(savedPassword: SavedPassword): Boolean {
         val passwordKey = getKeyForPassword()
         localStorage[passwordKey] = savedPassword.password
-        val result = database.savedPasswordsDao()
+        database.savedPasswordsDao()
             .insertSavedPassword(savedPassword = savedPassword.toDbModel(passwordKey = passwordKey))
-        return result != null
+        return true
     }
 
     private fun getPasswordFromKey(passwordKey: String): String {
