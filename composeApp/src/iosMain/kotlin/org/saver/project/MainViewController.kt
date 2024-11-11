@@ -8,7 +8,7 @@ import com.arkivanov.essenty.lifecycle.ApplicationLifecycle
 import org.saver.project.compose.RootScreen
 import org.saver.project.core.platform.PlatformConfiguration
 import org.saver.project.core.platform.PlatformSDK
-import org.saver.project.presentation.DefaultRootComponent
+import org.saver.project.presentation.root.DefaultRootComponent
 import platform.UIKit.UIViewController
 
 fun MainViewController(): UIViewController = ComposeUIViewController {

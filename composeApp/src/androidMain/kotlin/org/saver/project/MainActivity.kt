@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.arkivanov.decompose.retainedComponent
 import org.saver.project.compose.RootScreen
-import org.saver.project.presentation.DefaultRootComponent
-import org.saver.project.presentation.PreviewRootComponent
+import org.saver.project.presentation.root.DefaultRootComponent
+import org.saver.project.presentation.root.PreviewRootComponent
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

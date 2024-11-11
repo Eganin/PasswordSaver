@@ -9,7 +9,7 @@ import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import org.saver.project.compose.RootScreen
 import org.saver.project.core.platform.PlatformConfiguration
 import org.saver.project.core.platform.PlatformSDK
-import org.saver.project.presentation.DefaultRootComponent
+import org.saver.project.presentation.root.DefaultRootComponent
 
 fun main() = application {
     val lifecycle = LifecycleRegistry()
