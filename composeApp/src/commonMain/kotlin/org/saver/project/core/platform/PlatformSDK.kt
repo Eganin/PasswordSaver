@@ -6,7 +6,7 @@ import org.kodein.di.direct
 import org.kodein.di.singleton
 import org.saver.project.core.coreModule
 import org.saver.project.core.di.Inject
-import org.saver.project.data.db.dbModule
+import org.saver.project.data.di.dataModule
 
 object PlatformSDK {
     fun init(platformConfiguration: PlatformConfiguration) {
@@ -20,7 +20,7 @@ object PlatformSDK {
             importAll(
                 platformModule,
                 coreModule,
-                dbModule,
+                dataModule,
             )
         }.direct)
     }

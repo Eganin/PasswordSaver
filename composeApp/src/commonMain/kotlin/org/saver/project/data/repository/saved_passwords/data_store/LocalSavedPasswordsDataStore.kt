@@ -1,4 +1,4 @@
-package org.saver.project.data.repository.data_store
+package org.saver.project.data.repository.saved_passwords.data_store
 
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.set
@@ -10,7 +10,6 @@ import org.saver.project.domain.model.toDomainModel
 interface LocalSavedPasswordsDataStore {
     fun saveMasterPassword(password: String): Boolean
     fun getMasterPassword(): String
-    fun getPasswordFromKey(passwordKey: String): String
     suspend fun getSavedPasswords(): List<SavedPassword>
     suspend fun insertSavedPasswords(savedPassword: SavedPassword): Boolean
 }
@@ -28,10 +27,6 @@ internal class LocalSavedPasswordsDataStoreImpl(
         return localStorage.getString(key = MASTER_KEY, defaultValue = DEFAULT_VALUE)
     }
 
-    override fun getPasswordFromKey(passwordKey: String): String {
-        return localStorage.getString(key = passwordKey, defaultValue = DEFAULT_VALUE)
-    }
-
     override suspend fun getSavedPasswords(): List<SavedPassword> {
         return database.savedPasswordsDao().getAllSavedPasswords().map {
             val password = getPasswordFromKey(passwordKey = it.passwordKey)
@@ -45,6 +40,10 @@ internal class LocalSavedPasswordsDataStoreImpl(
         val result = database.savedPasswordsDao()
             .insertSavedPassword(savedPassword = savedPassword.toDbModel(passwordKey = passwordKey))
         return result != null
+    }
+
+    private fun getPasswordFromKey(passwordKey: String): String {
+        return localStorage.getString(key = passwordKey, defaultValue = DEFAULT_VALUE)
     }
 
     private fun getKeyForPassword(): String {
