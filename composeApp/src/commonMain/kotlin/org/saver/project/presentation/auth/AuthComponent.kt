@@ -9,12 +9,16 @@ import org.saver.project.domain.repository.SavedPasswordsRepository
 interface AuthComponent {
     val state: Value<AuthState>
 
-    fun changeMasterPassword(masterPassword:String)
+    fun changeMasterPassword(masterPassword: String)
 
     fun saveMasterPassword()
 }
 
-class DefaultAuthComponent(componentContext: ComponentContext,private val navigateToMasterPassword:()->Unit) : AuthComponent,
+class DefaultAuthComponent(
+    componentContext: ComponentContext,
+    private val navigateToMasterPassword: () -> Unit,
+    private val navigateToListPasswords: () -> Unit
+) : AuthComponent,
     ComponentContext by componentContext {
     override val state = MutableValue(AuthState())
 
@@ -25,20 +29,20 @@ class DefaultAuthComponent(componentContext: ComponentContext,private val naviga
     }
 
     override fun changeMasterPassword(masterPassword: String) {
-        state.value=state.value.copy(masterPassword = masterPassword)
+        state.value = state.value.copy(masterPassword = masterPassword)
     }
 
     override fun saveMasterPassword() {
-        savedPasswordsRepository.saveMasterPassword(password=state.value.masterPassword)
-        navigateToMasterPassword()
+        savedPasswordsRepository.saveMasterPassword(password = state.value.masterPassword)
+        navigateToListPasswords()
     }
 
     private fun checkMasterPassword() {
         val isAuth = savedPasswordsRepository.isAuth()
-        if (isAuth){
+        if (isAuth) {
             navigateToMasterPassword()
-        }else{
-            state.value=state.value.copy(isLoading = false)
+        } else {
+            state.value = state.value.copy(isLoading = false)
         }
     }
 }

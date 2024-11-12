@@ -1,4 +1,6 @@
 package org.saver.project.presentation.master_password
 
-class MasterPasswordState {
-}
+data class MasterPasswordState(
+    val masterPassword:String="",
+    val masterPasswordIsCorrect:Boolean=true,
+)

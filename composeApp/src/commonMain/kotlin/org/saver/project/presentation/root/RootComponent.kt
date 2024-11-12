@@ -57,6 +57,9 @@ class DefaultRootComponent(
                     component = DefaultAuthComponent(componentContext = componentContext,
                         navigateToMasterPassword = {
                             navigation.replaceAll(ScreenConfig.MasterPassword)
+                        },
+                        navigateToListPasswords = {
+                            navigation.replaceAll(ScreenConfig.ListPasswords)
                         })
                 )
             }
@@ -72,7 +75,10 @@ class DefaultRootComponent(
             is ScreenConfig.MasterPassword -> {
                 RootComponent.Child.MasterPassword(
                     component = DefaultMasterPasswordComponent(
-                        componentContext
+                        componentContext = componentContext,
+                        navigateToListPasswords = {
+                            navigation.replaceAll(ScreenConfig.ListPasswords)
+                        }
                     )
                 )
             }
