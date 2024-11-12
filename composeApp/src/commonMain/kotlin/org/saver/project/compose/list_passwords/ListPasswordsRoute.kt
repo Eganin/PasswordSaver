@@ -43,7 +43,8 @@ fun ListPasswordsRoute(
             items(state.savedPasswords) {
                 SavedPasswordCell(
                     savedPassword = it,
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                 )
             }
         }

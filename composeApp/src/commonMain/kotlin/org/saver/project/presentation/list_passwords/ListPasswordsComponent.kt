@@ -34,15 +34,7 @@ class DefaultListPasswordsComponent(
     private fun loadSavedPasswords() {
         scope.launch {
             val savedPasswords = savedPasswordsRepository.savedPasswords()
-            state.value = state.value.copy(
-                savedPasswords = savedPasswords + listOf(
-                    SavedPassword(
-                        title = "Test",
-                        password = "Test",
-                        login = "Test"
-                    ), SavedPassword(title = "Test2", password = "Test2", login = "Test2")
-                )
-            )
+            state.value = state.value.copy(savedPasswords = savedPasswords)
         }
     }
 }

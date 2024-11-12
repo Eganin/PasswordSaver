@@ -22,8 +22,6 @@ interface RootComponent {
 
     val childStack: Value<ChildStack<*, Child>>
 
-    fun onBackClicked()
-
     sealed class Child {
         data class AuthChild(val component: AuthComponent) : Child()
         data class CreatePasswordChild(val component: CreatePasswordComponent) : Child()
@@ -46,8 +44,6 @@ class DefaultRootComponent(
         childFactory = ::child,
     )
 
-    override fun onBackClicked() = navigation.pop()
-
     private fun child(
         config: ScreenConfig,
         componentContext: ComponentContext
@@ -68,7 +64,8 @@ class DefaultRootComponent(
             is ScreenConfig.CreatePassword -> {
                 RootComponent.Child.CreatePasswordChild(
                     component = DefaultCreatePasswordComponent(
-                        componentContext
+                        componentContext=componentContext,
+                        navigateToBack = navigation::pop
                     )
                 )
             }

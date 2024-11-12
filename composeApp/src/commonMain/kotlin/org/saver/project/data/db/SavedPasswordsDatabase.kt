@@ -4,6 +4,7 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
+import org.saver.project.core.platform.PlatformConfiguration
 import org.saver.project.data.model.SavedPasswordDBModel
 
 const val DB_VERSION = 1
@@ -22,3 +23,11 @@ expect object AppDatabaseConstructor : RoomDatabaseConstructor<SavedPasswordsDat
 abstract class SavedPasswordsDatabase : RoomDatabase() {
     abstract fun savedPasswordsDao(): SavedPasswordsDao
 }
+
+expect class RoomDbFactory(
+    platformConfiguration: PlatformConfiguration
+) {
+    fun getDatabase(): SavedPasswordsDatabase
+}
+
+const val DATABASE_FILE_NAME = "room_db_$DB_VERSION"
