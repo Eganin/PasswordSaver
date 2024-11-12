@@ -16,11 +16,13 @@ import org.saver.project.domain.repository.SavedPasswordsRepository
 interface ListPasswordsComponent {
     val state: Value<ListPasswordsState>
     fun createPassword()
+    fun editPassword(savedPassword: SavedPassword)
 }
 
 class DefaultListPasswordsComponent(
     componentContext: ComponentContext,
-    private val navigateToCreatePassword: () -> Unit
+    private val navigateToCreatePassword: () -> Unit,
+    private val navigateToEditPassword: (SavedPassword) -> Unit,
 ) : ListPasswordsComponent, ComponentContext by componentContext {
     override val state = MutableValue(ListPasswordsState())
     private val savedPasswordsRepository: SavedPasswordsRepository = Inject.instance()
@@ -34,6 +36,8 @@ class DefaultListPasswordsComponent(
 
     override fun createPassword() = navigateToCreatePassword()
 
+    override fun editPassword(savedPassword: SavedPassword) = navigateToEditPassword(savedPassword)
+
     private fun loadSavedPasswords() {
         scope.launch {
             val savedPasswords = savedPasswordsRepository.savedPasswords()
@@ -45,4 +49,5 @@ class DefaultListPasswordsComponent(
 class PreviewListPasswordsComponent : ListPasswordsComponent {
     override val state = MutableValue(ListPasswordsState())
     override fun createPassword() {}
+    override fun editPassword(savedPassword: SavedPassword) {}
 }

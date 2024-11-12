@@ -1,4 +1,4 @@
-package org.saver.project.presentation.create_password
+package org.saver.project.presentation.management_password
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
@@ -9,26 +9,33 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.saver.project.core.di.Inject
+import org.saver.project.domain.model.SavedPassword
 import org.saver.project.domain.repository.SavedPasswordsRepository
 
-interface CreatePasswordComponent {
-    val state: Value<CreatePasswordState>
+interface ManagementPasswordComponent {
+    val state: Value<ManagementPasswordState>
     fun changeTitle(title: String)
     fun changeLogin(login: String)
     fun changePassword(password: String)
     fun submit()
     fun toBack()
+    fun deleteSavedPassword()
 }
 
-class DefaultCreatePasswordComponent(
+class DefaultManagementPasswordComponent(
     componentContext: ComponentContext,
+    private val savedPassword: SavedPassword?,
     private val navigateToBack: () -> Unit
-) : CreatePasswordComponent, ComponentContext by componentContext {
-    override val state = MutableValue(CreatePasswordState())
+) : ManagementPasswordComponent, ComponentContext by componentContext {
+    override val state = MutableValue(ManagementPasswordState())
 
     private val savedPasswordsRepository: SavedPasswordsRepository = Inject.instance()
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val uiScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+
+    init {
+        setMode()
+    }
 
     override fun changeTitle(title: String) {
         state.value = state.value.copy(title = title, isCorrectTitle = true)
@@ -60,22 +67,48 @@ class DefaultCreatePasswordComponent(
                     password = state.value.password
                 )
                 uiScope.launch {
-                    navigateToBack()
+                    toBack()
                 }
             }
         }
     }
 
     override fun toBack() = navigateToBack()
+
+    override fun deleteSavedPassword() {
+        scope.launch {
+            savedPasswordsRepository.deleteSavedPassword(
+                title = state.value.title,
+                login = state.value.login,
+                password = state.value.password
+            )
+            uiScope.launch {
+                toBack()
+            }
+        }
+    }
+
+    private fun setMode() {
+        val mode =
+            if (savedPassword == null) ManagementPasswordMode.CREATE else ManagementPasswordMode.EDIT
+        state.value =
+            state.value.copy(mode = mode)
+        if (mode == ManagementPasswordMode.EDIT) {
+            state.value = state.value.copy(
+                title = savedPassword?.title ?: "",
+                login = savedPassword?.login ?: "",
+                password = savedPassword?.password ?: ""
+            )
+        }
+    }
 }
 
-class PreviewCreatePasswordComponent : CreatePasswordComponent {
-    override val state = MutableValue(CreatePasswordState())
+class PreviewManagementPasswordComponent : ManagementPasswordComponent {
+    override val state = MutableValue(ManagementPasswordState())
     override fun changeTitle(title: String) {}
-
     override fun changeLogin(login: String) {}
-
     override fun changePassword(password: String) {}
     override fun submit() {}
     override fun toBack() {}
+    override fun deleteSavedPassword() {}
 }

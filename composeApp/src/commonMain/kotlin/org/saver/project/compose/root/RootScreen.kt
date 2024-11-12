@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import org.saver.project.compose.auth.AuthRoute
-import org.saver.project.compose.create_password.CreatePasswordRoute
+import org.saver.project.compose.management_password.ManagementPasswordRoute
 import org.saver.project.compose.list_passwords.ListPasswordsRoute
 import org.saver.project.compose.master_password.MasterPasswordRoute
 import org.saver.project.presentation.root.RootComponent
@@ -40,9 +40,9 @@ fun RootScreen(rootComponent: RootComponent, modifier: Modifier = Modifier) {
                     )
                 }
 
-                is RootComponent.Child.CreatePasswordChild -> {
-                    CreatePasswordRoute(
-                        createPasswordComponent = child.component,
+                is RootComponent.Child.ManagementPasswordChild -> {
+                    ManagementPasswordRoute(
+                        managementPasswordComponent = child.component,
                         modifier = Modifier.fillMaxSize()
                     )
                 }

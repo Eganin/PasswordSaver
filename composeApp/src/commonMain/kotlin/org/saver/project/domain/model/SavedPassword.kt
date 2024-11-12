@@ -1,7 +1,9 @@
 package org.saver.project.domain.model
 
+import kotlinx.serialization.Serializable
 import org.saver.project.data.model.SavedPasswordDBModel
 
+@Serializable
 data class SavedPassword(
     val title: String,
     val login: String,

@@ -1,5 +1,6 @@
 package org.saver.project.compose.list_passwords
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,12 +40,13 @@ fun ListPasswordsRoute(
         },
         modifier = modifier
     ) {
-        LazyColumn(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
+        LazyColumn(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)) {
             items(state.savedPasswords) {
                 SavedPasswordCell(
                     savedPassword = it,
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    modifier = Modifier.fillMaxWidth().clickable {
+                        listPasswordsComponent.editPassword(it)
+                    }.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                 )
             }
         }

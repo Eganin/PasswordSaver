@@ -1,4 +1,4 @@
-package org.saver.project.compose.create_password
+package org.saver.project.compose.management_password
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -15,25 +17,26 @@ import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.saver.project.presentation.create_password.CreatePasswordComponent
-import org.saver.project.presentation.create_password.CreatePasswordState
-import org.saver.project.presentation.create_password.PreviewCreatePasswordComponent
+import org.saver.project.presentation.management_password.ManagementPasswordComponent
+import org.saver.project.presentation.management_password.ManagementPasswordState
+import org.saver.project.presentation.management_password.PreviewManagementPasswordComponent
 
 @Composable
-fun CreatePasswordRoute(
-    createPasswordComponent: CreatePasswordComponent,
+fun ManagementPasswordRoute(
+    managementPasswordComponent: ManagementPasswordComponent,
     modifier: Modifier = Modifier
 ) {
-    val state = createPasswordComponent.state.subscribeAsState().value
+    val state = managementPasswordComponent.state.subscribeAsState().value
     Scaffold(modifier = modifier) {
-        CreatePasswordScreen(
-            createPasswordComponent = createPasswordComponent,
+        ManagementPasswordScreen(
+            managementPasswordComponent = managementPasswordComponent,
             state = state,
             modifier = Modifier.fillMaxSize()
         )
@@ -41,19 +44,20 @@ fun CreatePasswordRoute(
 }
 
 @Composable
-private fun CreatePasswordScreen(
-    createPasswordComponent: CreatePasswordComponent,
-    state: CreatePasswordState,
+private fun ManagementPasswordScreen(
+    managementPasswordComponent: ManagementPasswordComponent,
+    state: ManagementPasswordState,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                 contentDescription = null,
-                modifier = Modifier.clickable { createPasswordComponent.toBack() })
+                modifier = Modifier.size(32.dp).padding(start = 16.dp)
+                    .clickable { managementPasswordComponent.toBack() })
             Text(
-                text = "Создать запись",
+                text = if (state.isCreateMode()) "Создать запись" else "Редактировать запись",
                 modifier = Modifier.padding(16.dp),
                 textAlign = TextAlign.Center
             )
@@ -61,36 +65,59 @@ private fun CreatePasswordScreen(
 
         TextFieldWithError(
             title = state.title,
-            onValueChange = createPasswordComponent::changeTitle,
+            onValueChange = managementPasswordComponent::changeTitle,
             isError = !state.isCorrectTitle,
             placeholderText = "Введите заголовок",
-            errorMessage = "Заголовок пустой"
+            errorMessage = "Заголовок пустой",
+            textFieldModifier = Modifier.fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, top = 32.dp)
         )
 
         TextFieldWithError(
             title = state.login,
-            onValueChange = createPasswordComponent::changeLogin,
+            onValueChange = managementPasswordComponent::changeLogin,
             isError = !state.isCorrectLogin,
             placeholderText = "Введите логин",
-            errorMessage = "Логин пустой"
+            errorMessage = "Логин пустой",
+            textFieldModifier = Modifier.fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, top = 32.dp)
         )
 
         TextFieldWithError(
             title = state.password,
-            onValueChange = createPasswordComponent::changePassword,
+            onValueChange = managementPasswordComponent::changePassword,
             isError = !state.isCorrectPassword,
             placeholderText = "Введите пароль",
-            errorMessage = "Пароль пустой"
+            errorMessage = "Пароль пустой",
+            textFieldModifier = Modifier.fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, top = 32.dp)
         )
+
+        if (state.isEditMode()){
+            Spacer(modifier=Modifier.height(32.dp))
+
+            Button(
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                onClick = managementPasswordComponent::deleteSavedPassword
+            ) {
+                Text(
+                    text = "Удалить запись",
+                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            Spacer(modifier=Modifier.height(32.dp))
+        }
 
         Spacer(modifier = Modifier.weight(1f))
 
         Button(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
-            onClick = createPasswordComponent::submit
+            onClick = managementPasswordComponent::submit
         ) {
             Text(
-                text = "Сохранить",
+                text = if (state.isCreateMode()) "Сохранить" else "Изменить",
                 modifier = Modifier.fillMaxWidth().padding(8.dp),
                 textAlign = TextAlign.Center
             )
@@ -105,14 +132,14 @@ fun TextFieldWithError(
     errorMessage: String,
     placeholderText: String,
     modifier: Modifier = Modifier,
+    textFieldModifier: Modifier = Modifier,
     onValueChange: (String) -> Unit
 ) {
     Column(modifier = modifier) {
         TextField(
             value = title,
             onValueChange = onValueChange,
-            modifier = Modifier.fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 32.dp),
+            modifier = textFieldModifier,
             placeholder = {
                 Text(text = placeholderText)
             },
@@ -130,10 +157,10 @@ fun TextFieldWithError(
 
 @Preview
 @Composable
-fun CreatePasswordScreenPreview() {
-    CreatePasswordScreen(
-        createPasswordComponent = PreviewCreatePasswordComponent(),
-        state = CreatePasswordState(),
+fun ManagementPasswordScreenPreview() {
+    ManagementPasswordScreen(
+        managementPasswordComponent = PreviewManagementPasswordComponent(),
+        state = ManagementPasswordState(),
         modifier = Modifier.fillMaxSize()
     )
 }

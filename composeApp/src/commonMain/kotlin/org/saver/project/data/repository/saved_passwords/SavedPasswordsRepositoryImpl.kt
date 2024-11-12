@@ -30,7 +30,12 @@ internal class SavedPasswordsRepositoryImpl(
         localSavedPasswordsDataStore.insertSavedPasswords(savedPassword = savedPassword)
     }
 
-    override suspend fun deleteSavedPassword(savedPassword: SavedPassword) {
+    override suspend fun deleteSavedPassword(title: String, login: String, password: String) {
+        val savedPassword = SavedPassword(
+            title = title,
+            login = login,
+            password = password
+        )
         localSavedPasswordsDataStore.deleteSavedPasswords(savedPassword)
     }
 }
