@@ -1,12 +1,12 @@
 package org.saver.project.compose
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import org.saver.project.compose.auth.AuthRoute
+import org.saver.project.compose.list_passwords.ListPasswordsRoute
 import org.saver.project.compose.master_password.MasterPasswordRoute
 import org.saver.project.presentation.root.RootComponent
 
@@ -19,7 +19,10 @@ fun RootScreen(rootComponent: RootComponent, modifier: Modifier = Modifier) {
         ) {
             when (val child = it.instance) {
                 is RootComponent.Child.AuthChild -> {
-                    AuthRoute(authComponent = child.component, modifier = Modifier.fillMaxSize())
+                    AuthRoute(
+                        authComponent = child.component,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
 
                 is RootComponent.Child.MasterPassword -> {
@@ -30,8 +33,12 @@ fun RootScreen(rootComponent: RootComponent, modifier: Modifier = Modifier) {
                 }
 
                 is RootComponent.Child.ListPasswordsChild -> {
-                    Box(modifier=Modifier.fillMaxSize()){}
+                    ListPasswordsRoute(
+                        listPasswordsComponent = child.component,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
+
                 is RootComponent.Child.CreatePasswordChild -> {}
             }
         }
