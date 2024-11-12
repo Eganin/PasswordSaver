@@ -6,7 +6,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import org.saver.project.compose.RootScreen
+import org.saver.project.compose.root.RootScreen
 import org.saver.project.core.platform.PlatformConfiguration
 import org.saver.project.core.platform.PlatformSDK
 import org.saver.project.presentation.root.DefaultRootComponent

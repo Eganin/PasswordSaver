@@ -39,7 +39,7 @@ fun ListPasswordsRoute(
         },
         modifier = modifier
     ) {
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        LazyColumn(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
             items(state.savedPasswords) {
                 SavedPasswordCell(
                     savedPassword = it,
@@ -54,21 +54,25 @@ fun ListPasswordsRoute(
 @Composable
 private fun SavedPasswordCell(savedPassword: SavedPassword, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Text(
-            text = savedPassword.title,
-            modifier = Modifier.fillMaxWidth(),
-            fontSize = 18.sp
-        )
+        if (savedPassword.title.isNotBlank()) {
+            Text(
+                text = savedPassword.title,
+                modifier = Modifier.fillMaxWidth(),
+                fontSize = 18.sp
+            )
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
+        }
 
-        Text(
-            text = "Логин: ${savedPassword.login}",
-            modifier = Modifier.fillMaxWidth(),
-            fontSize = 14.sp
-        )
+        if (savedPassword.login.isNotBlank()) {
+            Text(
+                text = "Логин: ${savedPassword.login}",
+                modifier = Modifier.fillMaxWidth(),
+                fontSize = 14.sp
+            )
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
+        }
 
         Text(
             text = "Пароль: ${savedPassword.password}",

@@ -4,5 +4,7 @@ data class CreatePasswordState(
     val title: String = "",
     val login: String = "",
     val password: String = "",
-    val isCorrectInputs:Boolean=true,
+    val isCorrectLogin: Boolean = true,
+    val isCorrectTitle: Boolean = true,
+    val isCorrectPassword: Boolean = true,
 )

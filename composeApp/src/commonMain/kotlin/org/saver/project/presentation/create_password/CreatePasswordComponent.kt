@@ -28,31 +28,40 @@ class DefaultCreatePasswordComponent(
 
     private val savedPasswordsRepository: SavedPasswordsRepository = Inject.instance()
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val uiScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     override fun changeTitle(title: String) {
-        state.value = state.value.copy(title = title)
+        state.value = state.value.copy(title = title, isCorrectTitle = true)
     }
 
     override fun changeLogin(login: String) {
-        state.value = state.value.copy(login = login)
+        state.value = state.value.copy(login = login, isCorrectLogin = true)
     }
 
     override fun changePassword(password: String) {
-        state.value = state.value.copy(password = password)
+        state.value = state.value.copy(password = password, isCorrectPassword = true)
     }
 
     override fun submit() {
-        val isCorrect = state.value.password.isNotBlank() &&
-                (state.value.login.isNotBlank() || state.value.title.isNotBlank())
-        state.value = state.value.copy(isCorrectInputs = isCorrect)
-        if (isCorrect) {
+        val isCorrectOptionalFields =
+            state.value.login.isNotBlank() || state.value.title.isNotBlank()
+        state.value = state.value.copy(isCorrectPassword = state.value.password.isNotBlank())
+        if (!isCorrectOptionalFields) {
+            state.value = state.value.copy(
+                isCorrectLogin = state.value.login.isNotBlank(),
+                isCorrectTitle = state.value.title.isNotBlank()
+            )
+        }
+        if (isCorrectOptionalFields && state.value.isCorrectPassword) {
             scope.launch {
                 savedPasswordsRepository.insertPasswordInfo(
                     title = state.value.title,
                     login = state.value.login,
                     password = state.value.password
                 )
-                navigateToBack()
+                uiScope.launch {
+                    navigateToBack()
+                }
             }
         }
     }

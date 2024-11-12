@@ -3,6 +3,7 @@ package org.saver.project.presentation.list_passwords
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.lifecycle.doOnResume
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -26,7 +27,9 @@ class DefaultListPasswordsComponent(
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     init {
-        loadSavedPasswords()
+        lifecycle.doOnResume {
+            loadSavedPasswords()
+        }
     }
 
     override fun createPassword() = navigateToCreatePassword()

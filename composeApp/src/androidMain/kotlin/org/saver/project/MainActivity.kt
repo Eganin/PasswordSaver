@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.retainedComponent
-import org.saver.project.compose.RootScreen
+import org.saver.project.compose.root.RootScreen
 import org.saver.project.presentation.root.DefaultRootComponent
 
 class MainActivity : ComponentActivity() {

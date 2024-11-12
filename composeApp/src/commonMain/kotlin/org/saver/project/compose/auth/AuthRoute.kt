@@ -20,7 +20,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.saver.project.compose.RootScreen
 import org.saver.project.presentation.auth.AuthComponent
 import org.saver.project.presentation.auth.AuthState
 import org.saver.project.presentation.auth.PreviewAuthComponent
