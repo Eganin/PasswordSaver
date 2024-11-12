@@ -13,11 +13,11 @@ import org.saver.project.presentation.root.DefaultRootComponent
 
 fun main() = application {
     val lifecycle = LifecycleRegistry()
-    val rootComponent = DefaultRootComponent(
-        componentContext = DefaultComponentContext(lifecycle = lifecycle)
-    )
     PlatformSDK.init(
         platformConfiguration = PlatformConfiguration()
+    )
+    val rootComponent = DefaultRootComponent(
+        componentContext = DefaultComponentContext(lifecycle = lifecycle)
     )
     Window(
         onCloseRequest = ::exitApplication,

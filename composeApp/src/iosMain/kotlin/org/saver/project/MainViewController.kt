@@ -12,10 +12,10 @@ import org.saver.project.presentation.root.DefaultRootComponent
 import platform.UIKit.UIViewController
 
 fun MainViewController(): UIViewController = ComposeUIViewController {
-    val rootComponent =
-        DefaultRootComponent(componentContext = DefaultComponentContext(lifecycle = ApplicationLifecycle()))
     PlatformSDK.init(
         platformConfiguration = PlatformConfiguration()
     )
+    val rootComponent =
+        DefaultRootComponent(componentContext = DefaultComponentContext(lifecycle = ApplicationLifecycle()))
     RootScreen(rootComponent = rootComponent, modifier = Modifier.fillMaxSize())
 }

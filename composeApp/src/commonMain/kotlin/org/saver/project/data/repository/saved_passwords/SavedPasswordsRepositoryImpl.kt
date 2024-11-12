@@ -13,6 +13,10 @@ internal class SavedPasswordsRepositoryImpl(
         return localSavedPasswordsDataStore.getMasterPassword() == password
     }
 
+    override fun saveMasterPassword(password: String) {
+        localSavedPasswordsDataStore.saveMasterPassword(password=password)
+    }
+
     override suspend fun savedPasswords(): List<SavedPassword> {
         return localSavedPasswordsDataStore.getSavedPasswords()
     }
