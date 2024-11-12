@@ -8,4 +8,5 @@ interface SavedPasswordsRepository {
     fun saveMasterPassword(password:String)
     suspend fun savedPasswords(): List<SavedPassword>
     suspend fun insertPasswordInfo(title: String, login: String, password: String)
+    suspend fun deleteSavedPassword(savedPassword: SavedPassword)
 }

@@ -14,7 +14,7 @@ internal class SavedPasswordsRepositoryImpl(
     }
 
     override fun saveMasterPassword(password: String) {
-        localSavedPasswordsDataStore.saveMasterPassword(password=password)
+        localSavedPasswordsDataStore.saveMasterPassword(password = password)
     }
 
     override suspend fun savedPasswords(): List<SavedPassword> {
@@ -28,5 +28,9 @@ internal class SavedPasswordsRepositoryImpl(
             password = password
         )
         localSavedPasswordsDataStore.insertSavedPasswords(savedPassword = savedPassword)
+    }
+
+    override suspend fun deleteSavedPassword(savedPassword: SavedPassword) {
+        localSavedPasswordsDataStore.deleteSavedPasswords(savedPassword)
     }
 }

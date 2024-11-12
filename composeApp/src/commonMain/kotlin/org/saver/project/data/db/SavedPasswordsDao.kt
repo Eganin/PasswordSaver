@@ -13,4 +13,7 @@ interface SavedPasswordsDao {
 
     @Query("SELECT * FROM saved_passwords")
     suspend fun getAllSavedPasswords(): List<SavedPasswordDBModel>
+
+    @Query("DELETE FROM saved_passwords WHERE id =:id")
+    suspend fun deleteSavedPasswordById(id:Long)
 }
