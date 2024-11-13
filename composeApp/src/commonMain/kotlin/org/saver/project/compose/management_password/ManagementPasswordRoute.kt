@@ -9,20 +9,28 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.saver.project.presentation.management_password.ManagementPasswordComponent
@@ -36,7 +44,9 @@ import passwordsaver.composeapp.generated.resources.input_login
 import passwordsaver.composeapp.generated.resources.input_password
 import passwordsaver.composeapp.generated.resources.input_title
 import passwordsaver.composeapp.generated.resources.login_is_empty
+import passwordsaver.composeapp.generated.resources.password_hide
 import passwordsaver.composeapp.generated.resources.password_is_empty
+import passwordsaver.composeapp.generated.resources.password_show
 import passwordsaver.composeapp.generated.resources.remove_password
 import passwordsaver.composeapp.generated.resources.save
 import passwordsaver.composeapp.generated.resources.title_is_empty
@@ -98,14 +108,16 @@ private fun ManagementPasswordScreen(
                 .padding(start = 16.dp, end = 16.dp, top = 32.dp)
         )
 
-        TextFieldWithError(
+        TextFieldPassword(
             title = state.password,
             onValueChange = managementPasswordComponent::changePassword,
             isError = !state.isCorrectPassword,
             placeholderText = stringResource(Res.string.input_password),
             errorMessage = stringResource(Res.string.password_is_empty),
             textFieldModifier = Modifier.fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 32.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 32.dp),
+            passwordVisibility = state.passwordVisibility,
+            changePasswordVisibility = managementPasswordComponent::changePasswordVisibility
         )
 
         if (state.isEditMode()) {
@@ -137,6 +149,51 @@ private fun ManagementPasswordScreen(
                 ),
                 modifier = Modifier.fillMaxWidth().padding(8.dp),
                 textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
+@Composable
+fun TextFieldPassword(
+    title: String,
+    isError: Boolean,
+    errorMessage: String,
+    placeholderText: String,
+    passwordVisibility:Boolean,
+    modifier: Modifier = Modifier,
+    textFieldModifier: Modifier = Modifier,
+    onValueChange: (String) -> Unit,
+    changePasswordVisibility:(Boolean)->Unit
+) {
+    Column(modifier = modifier) {
+        TextField(
+            value = title,
+            onValueChange = onValueChange,
+            modifier = textFieldModifier,
+            placeholder = {
+                Text(text = placeholderText)
+            },
+            isError = isError,
+            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            trailingIcon = {
+                val image = if (passwordVisibility)
+                    painterResource(Res.drawable.password_show)
+                else painterResource(Res.drawable.password_hide)
+
+                IconButton(onClick = {
+                    changePasswordVisibility(!passwordVisibility)
+                }){
+                    Icon(painter = image, contentDescription = null,modifier=Modifier.size(20.dp))
+                }
+            }
+        )
+        if (isError) {
+            Text(
+                text = errorMessage,
+                modifier = Modifier.padding(start = 32.dp),
+                color = Color.Red,
             )
         }
     }

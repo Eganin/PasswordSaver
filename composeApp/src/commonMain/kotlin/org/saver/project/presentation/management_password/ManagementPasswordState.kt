@@ -8,6 +8,7 @@ data class ManagementPasswordState(
     val isCorrectTitle: Boolean = true,
     val isCorrectPassword: Boolean = true,
     val mode: ManagementPasswordMode = ManagementPasswordMode.CREATE,
+    val passwordVisibility: Boolean = false,
 ) {
     fun isEditMode() = mode == ManagementPasswordMode.EDIT
     fun isCreateMode() = mode == ManagementPasswordMode.CREATE

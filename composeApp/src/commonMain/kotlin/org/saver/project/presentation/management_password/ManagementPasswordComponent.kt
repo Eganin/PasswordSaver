@@ -20,6 +20,7 @@ interface ManagementPasswordComponent {
     fun submit()
     fun toBack()
     fun deleteSavedPassword()
+    fun changePasswordVisibility(visibility:Boolean)
 }
 
 class DefaultManagementPasswordComponent(
@@ -79,6 +80,10 @@ class DefaultManagementPasswordComponent(
         }
     }
 
+    override fun changePasswordVisibility(visibility: Boolean) {
+        state.value=state.value.copy(passwordVisibility = visibility)
+    }
+
     private fun setMode() {
         val mode =
             if (savedPassword == null) ManagementPasswordMode.CREATE else ManagementPasswordMode.EDIT
@@ -115,4 +120,5 @@ class PreviewManagementPasswordComponent : ManagementPasswordComponent {
     override fun submit() {}
     override fun toBack() {}
     override fun deleteSavedPassword() {}
+    override fun changePasswordVisibility(visibility: Boolean) {}
 }
