@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">PasswordSaver</string>
+    <string name="input_master_password">Введите мастер пароль</string>
+    <string name="input_master_password_incorrect">Мастер пароль неверный</string>
+    <string name="save">Сохранить</string>
+    <string name="change">Изменить</string>
+    <string name="login">Логин: %1$s</string>
+    <string name="password">Пароль: %1$s</string>
+    <string name="next">Далее</string>
+    <string name="create_password">Создать запись</string>
+    <string name="edit_password">Редактировать запись</string>
+    <string name="input_title">Введите заголовок</string>
+    <string name="title_is_empty">Заголовок пустой</string>
+    <string name="input_login">Введите логин</string>
+    <string name="login_is_empty">Логин пустой</string>
+    <string name="input_password">Введите пароль</string>
+    <string name="password_is_empty">Пароль пустой</string>
+    <string name="remove_password">Удалить запись</string>
+</resources>

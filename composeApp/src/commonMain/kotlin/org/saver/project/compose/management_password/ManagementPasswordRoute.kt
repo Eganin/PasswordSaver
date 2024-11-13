@@ -23,10 +23,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.saver.project.presentation.management_password.ManagementPasswordComponent
 import org.saver.project.presentation.management_password.ManagementPasswordState
 import org.saver.project.presentation.management_password.PreviewManagementPasswordComponent
+import passwordsaver.composeapp.generated.resources.Res
+import passwordsaver.composeapp.generated.resources.change
+import passwordsaver.composeapp.generated.resources.create_password
+import passwordsaver.composeapp.generated.resources.edit_password
+import passwordsaver.composeapp.generated.resources.input_login
+import passwordsaver.composeapp.generated.resources.input_password
+import passwordsaver.composeapp.generated.resources.input_title
+import passwordsaver.composeapp.generated.resources.login_is_empty
+import passwordsaver.composeapp.generated.resources.password_is_empty
+import passwordsaver.composeapp.generated.resources.remove_password
+import passwordsaver.composeapp.generated.resources.save
+import passwordsaver.composeapp.generated.resources.title_is_empty
 
 @Composable
 fun ManagementPasswordRoute(
@@ -57,7 +70,9 @@ private fun ManagementPasswordScreen(
                 modifier = Modifier.size(32.dp).padding(start = 16.dp)
                     .clickable { managementPasswordComponent.toBack() })
             Text(
-                text = if (state.isCreateMode()) "Создать запись" else "Редактировать запись",
+                text = if (state.isCreateMode()) stringResource(Res.string.create_password) else stringResource(
+                    Res.string.edit_password
+                ),
                 modifier = Modifier.padding(16.dp),
                 textAlign = TextAlign.Center
             )
@@ -67,8 +82,8 @@ private fun ManagementPasswordScreen(
             title = state.title,
             onValueChange = managementPasswordComponent::changeTitle,
             isError = !state.isCorrectTitle,
-            placeholderText = "Введите заголовок",
-            errorMessage = "Заголовок пустой",
+            placeholderText = stringResource(Res.string.input_title),
+            errorMessage = stringResource(Res.string.title_is_empty),
             textFieldModifier = Modifier.fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, top = 32.dp)
         )
@@ -77,8 +92,8 @@ private fun ManagementPasswordScreen(
             title = state.login,
             onValueChange = managementPasswordComponent::changeLogin,
             isError = !state.isCorrectLogin,
-            placeholderText = "Введите логин",
-            errorMessage = "Логин пустой",
+            placeholderText = stringResource(Res.string.input_login),
+            errorMessage = stringResource(Res.string.login_is_empty),
             textFieldModifier = Modifier.fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, top = 32.dp)
         )
@@ -87,27 +102,27 @@ private fun ManagementPasswordScreen(
             title = state.password,
             onValueChange = managementPasswordComponent::changePassword,
             isError = !state.isCorrectPassword,
-            placeholderText = "Введите пароль",
-            errorMessage = "Пароль пустой",
+            placeholderText = stringResource(Res.string.input_password),
+            errorMessage = stringResource(Res.string.password_is_empty),
             textFieldModifier = Modifier.fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, top = 32.dp)
         )
 
-        if (state.isEditMode()){
-            Spacer(modifier=Modifier.height(32.dp))
+        if (state.isEditMode()) {
+            Spacer(modifier = Modifier.height(32.dp))
 
             Button(
                 modifier = Modifier.fillMaxWidth().padding(16.dp),
                 onClick = managementPasswordComponent::deleteSavedPassword
             ) {
                 Text(
-                    text = "Удалить запись",
+                    text = stringResource(Res.string.remove_password),
                     modifier = Modifier.fillMaxWidth().padding(8.dp),
                     textAlign = TextAlign.Center
                 )
             }
 
-            Spacer(modifier=Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(32.dp))
         }
 
         Spacer(modifier = Modifier.weight(1f))
@@ -117,7 +132,9 @@ private fun ManagementPasswordScreen(
             onClick = managementPasswordComponent::submit
         ) {
             Text(
-                text = if (state.isCreateMode()) "Сохранить" else "Изменить",
+                text = if (state.isCreateMode()) stringResource(Res.string.save) else stringResource(
+                    Res.string.change
+                ),
                 modifier = Modifier.fillMaxWidth().padding(8.dp),
                 textAlign = TextAlign.Center
             )

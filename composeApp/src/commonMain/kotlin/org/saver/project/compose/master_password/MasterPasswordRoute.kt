@@ -15,10 +15,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.saver.project.presentation.master_password.MasterPasswordComponent
 import org.saver.project.presentation.master_password.MasterPasswordState
 import org.saver.project.presentation.master_password.PreviewMasterPasswordComponent
+import passwordsaver.composeapp.generated.resources.Res
+import passwordsaver.composeapp.generated.resources.input_master_password
+import passwordsaver.composeapp.generated.resources.input_master_password_incorrect
+import passwordsaver.composeapp.generated.resources.next
 
 @Composable
 fun MasterPasswordRoute(
@@ -44,13 +49,13 @@ fun MasterPasswordScreen(
     Column(modifier = modifier) {
         if (state.masterPasswordIsCorrect) {
             Text(
-                text = "Введите мастер пароль",
+                text = stringResource(Res.string.input_master_password),
                 modifier = Modifier.fillMaxWidth().padding(16.dp),
                 textAlign = TextAlign.Center
             )
         } else {
             Text(
-                text = "Мастер пароль неверный",
+                text = stringResource(Res.string.input_master_password_incorrect),
                 color = Color.Red,
                 modifier = Modifier.fillMaxWidth().padding(16.dp),
                 textAlign = TextAlign.Center
@@ -74,7 +79,7 @@ fun MasterPasswordScreen(
             onClick = masterPasswordComponent::compareMasterPassword
         ) {
             Text(
-                text = "Далее",
+                text = stringResource(Res.string.next),
                 modifier = Modifier.fillMaxWidth().padding(8.dp),
                 textAlign = TextAlign.Center
             )

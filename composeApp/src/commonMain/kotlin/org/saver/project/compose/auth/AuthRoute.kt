@@ -19,10 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.saver.project.presentation.auth.AuthComponent
 import org.saver.project.presentation.auth.AuthState
 import org.saver.project.presentation.auth.PreviewAuthComponent
+import passwordsaver.composeapp.generated.resources.Res
+import passwordsaver.composeapp.generated.resources.input_master_password
+import passwordsaver.composeapp.generated.resources.save
 
 @Composable
 fun AuthRoute(authComponent: AuthComponent, modifier: Modifier = Modifier) {
@@ -42,7 +46,7 @@ private fun AuthScreen(
         if (!state.isLoading) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = "Введите мастер пароль",
+                    text = stringResource(Res.string.input_master_password),
                     modifier = Modifier.fillMaxWidth()
                         .padding(start = 16.dp, top = 16.dp, end = 16.dp),
                     textAlign = TextAlign.Center
@@ -65,7 +69,7 @@ private fun AuthScreen(
                     onClick = authComponent::saveMasterPassword
                 ) {
                     Text(
-                        text = "Сохранить",
+                        text = stringResource(Res.string.save),
                         modifier = Modifier.fillMaxWidth().padding(8.dp),
                         textAlign = TextAlign.Center
                     )

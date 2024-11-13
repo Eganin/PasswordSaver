@@ -23,10 +23,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.saver.project.domain.model.SavedPassword
 import org.saver.project.presentation.list_passwords.ListPasswordsComponent
 import org.saver.project.presentation.list_passwords.PreviewListPasswordsComponent
+import passwordsaver.composeapp.generated.resources.Res
+import passwordsaver.composeapp.generated.resources.login
+import passwordsaver.composeapp.generated.resources.password
 
 @Composable
 fun ListPasswordsRoute(
@@ -68,7 +72,7 @@ private fun SavedPasswordCell(savedPassword: SavedPassword, modifier: Modifier =
 
         if (savedPassword.login.isNotBlank()) {
             Text(
-                text = "Логин: ${savedPassword.login}",
+                text = stringResource(Res.string.login, savedPassword.login),
                 modifier = Modifier.fillMaxWidth(),
                 fontSize = 14.sp
             )
@@ -77,7 +81,7 @@ private fun SavedPasswordCell(savedPassword: SavedPassword, modifier: Modifier =
         }
 
         Text(
-            text = "Пароль: ${savedPassword.password}",
+            text = stringResource(Res.string.password, savedPassword.password),
             modifier = Modifier.fillMaxWidth(),
             fontSize = 14.sp
         )

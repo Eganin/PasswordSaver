@@ -54,6 +54,7 @@ kotlin {
             implementation(libs.sqlite)
             implementation(libs.multiplatform.settings)
             implementation(libs.multiplatform.settings.serialization)
+            implementation(compose.components.resources)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
