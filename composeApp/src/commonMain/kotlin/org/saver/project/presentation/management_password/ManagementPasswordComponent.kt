@@ -50,21 +50,14 @@ class DefaultManagementPasswordComponent(
     }
 
     override fun submit() {
-        val isCorrectOptionalFields =
-            state.value.login.isNotBlank() || state.value.title.isNotBlank()
-        state.value = state.value.copy(isCorrectPassword = state.value.password.isNotBlank())
-        if (!isCorrectOptionalFields) {
-            state.value = state.value.copy(
-                isCorrectLogin = state.value.login.isNotBlank(),
-                isCorrectTitle = state.value.title.isNotBlank()
-            )
-        }
+        val isCorrectOptionalFields = checkCorrectInputs()
         if (isCorrectOptionalFields && state.value.isCorrectPassword) {
             scope.launch {
                 savedPasswordsRepository.insertPasswordInfo(
                     title = state.value.title,
                     login = state.value.login,
-                    password = state.value.password
+                    password = state.value.password,
+                    id = savedPassword?.id
                 )
                 uiScope.launch {
                     toBack()
@@ -76,14 +69,12 @@ class DefaultManagementPasswordComponent(
     override fun toBack() = navigateToBack()
 
     override fun deleteSavedPassword() {
-        scope.launch {
-            savedPasswordsRepository.deleteSavedPassword(
-                title = state.value.title,
-                login = state.value.login,
-                password = state.value.password
-            )
-            uiScope.launch {
-                toBack()
+        savedPassword?.id?.let { id ->
+            scope.launch {
+                savedPasswordsRepository.deleteSavedPassword(id = id)
+                uiScope.launch {
+                    toBack()
+                }
             }
         }
     }
@@ -100,6 +91,19 @@ class DefaultManagementPasswordComponent(
                 password = savedPassword?.password ?: ""
             )
         }
+    }
+
+    private fun checkCorrectInputs(): Boolean {
+        val isCorrectOptionalFields =
+            state.value.login.isNotBlank() || state.value.title.isNotBlank()
+        state.value = state.value.copy(isCorrectPassword = state.value.password.isNotBlank())
+        if (!isCorrectOptionalFields) {
+            state.value = state.value.copy(
+                isCorrectLogin = state.value.login.isNotBlank(),
+                isCorrectTitle = state.value.title.isNotBlank()
+            )
+        }
+        return isCorrectOptionalFields
     }
 }
 

@@ -12,7 +12,7 @@ interface LocalSavedPasswordsDataStore {
     fun getMasterPassword(): String
     suspend fun getSavedPasswords(): List<SavedPassword>
     suspend fun insertSavedPasswords(savedPassword: SavedPassword)
-    suspend fun deleteSavedPasswords(savedPassword: SavedPassword)
+    suspend fun deleteSavedPasswords(id:Long)
 }
 
 internal class LocalSavedPasswordsDataStoreImpl(
@@ -42,12 +42,8 @@ internal class LocalSavedPasswordsDataStoreImpl(
             .insertSavedPassword(savedPassword = savedPassword.toDbModel(passwordKey = passwordKey))
     }
 
-    override suspend fun deleteSavedPasswords(savedPassword: SavedPassword) {
-        val id = database.savedPasswordsDao().getAllSavedPasswords()
-            .find { getPasswordFromKey(passwordKey = it.passwordKey) == savedPassword.password }?.id
-        id?.let {
-            database.savedPasswordsDao().deleteSavedPasswordById(id = it)
-        }
+    override suspend fun deleteSavedPasswords(id: Long) {
+        database.savedPasswordsDao().deleteSavedPasswordById(id = id)
     }
 
     private fun getPasswordFromKey(passwordKey: String): String {

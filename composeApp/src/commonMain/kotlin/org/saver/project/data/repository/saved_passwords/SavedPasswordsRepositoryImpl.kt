@@ -21,8 +21,14 @@ internal class SavedPasswordsRepositoryImpl(
         return localSavedPasswordsDataStore.getSavedPasswords()
     }
 
-    override suspend fun insertPasswordInfo(title: String, login: String, password: String) {
+    override suspend fun insertPasswordInfo(
+        id: Long?,
+        title: String,
+        login: String,
+        password: String
+    ) {
         val savedPassword = SavedPassword(
+            id=id,
             title = title,
             login = login,
             password = password
@@ -30,12 +36,7 @@ internal class SavedPasswordsRepositoryImpl(
         localSavedPasswordsDataStore.insertSavedPasswords(savedPassword = savedPassword)
     }
 
-    override suspend fun deleteSavedPassword(title: String, login: String, password: String) {
-        val savedPassword = SavedPassword(
-            title = title,
-            login = login,
-            password = password
-        )
-        localSavedPasswordsDataStore.deleteSavedPasswords(savedPassword)
+    override suspend fun deleteSavedPassword(id:Long) {
+        localSavedPasswordsDataStore.deleteSavedPasswords(id=id)
     }
 }

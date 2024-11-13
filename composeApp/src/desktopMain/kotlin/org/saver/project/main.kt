@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import org.saver.project.compose.root.RootScreen
@@ -20,9 +21,19 @@ fun main() = application {
         componentContext = DefaultComponentContext(lifecycle = lifecycle)
     )
     Window(
-        onCloseRequest = ::exitApplication,
+        onCloseRequest = {
+            lifecycle.onPause()
+            lifecycle.onStop()
+            lifecycle.onDestroy()
+            exitApplication()
+        },
         title = "PasswordSaver",
+        state = rememberWindowState()
     ) {
         RootScreen(rootComponent = rootComponent, modifier = Modifier.fillMaxSize())
     }
+
+    lifecycle.onCreate()
+    lifecycle.onStart()
+    lifecycle.onResume()
 }

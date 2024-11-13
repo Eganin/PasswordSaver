@@ -7,6 +7,6 @@ interface SavedPasswordsRepository {
     fun compareMasterPassword(password: String): Boolean
     fun saveMasterPassword(password:String)
     suspend fun savedPasswords(): List<SavedPassword>
-    suspend fun insertPasswordInfo(title: String, login: String, password: String)
-    suspend fun deleteSavedPassword(title: String, login: String, password: String)
+    suspend fun insertPasswordInfo(id:Long?,title: String, login: String, password: String)
+    suspend fun deleteSavedPassword(id:Long)
 }
