@@ -18,8 +18,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +30,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.saver.project.presentation.management_password.ManagementPasswordComponent
@@ -44,9 +43,7 @@ import passwordsaver.composeapp.generated.resources.input_login
 import passwordsaver.composeapp.generated.resources.input_password
 import passwordsaver.composeapp.generated.resources.input_title
 import passwordsaver.composeapp.generated.resources.login_is_empty
-import passwordsaver.composeapp.generated.resources.password_hide
 import passwordsaver.composeapp.generated.resources.password_is_empty
-import passwordsaver.composeapp.generated.resources.password_show
 import passwordsaver.composeapp.generated.resources.remove_password
 import passwordsaver.composeapp.generated.resources.save
 import passwordsaver.composeapp.generated.resources.title_is_empty
@@ -160,11 +157,11 @@ fun TextFieldPassword(
     isError: Boolean,
     errorMessage: String,
     placeholderText: String,
-    passwordVisibility:Boolean,
+    passwordVisibility: Boolean,
     modifier: Modifier = Modifier,
     textFieldModifier: Modifier = Modifier,
     onValueChange: (String) -> Unit,
-    changePasswordVisibility:(Boolean)->Unit
+    changePasswordVisibility: (Boolean) -> Unit
 ) {
     Column(modifier = modifier) {
         TextField(
@@ -179,13 +176,17 @@ fun TextFieldPassword(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             trailingIcon = {
                 val image = if (passwordVisibility)
-                    painterResource(Res.drawable.password_show)
-                else painterResource(Res.drawable.password_hide)
+                    Icons.Filled.Close
+                else Icons.Filled.Done
 
                 IconButton(onClick = {
                     changePasswordVisibility(!passwordVisibility)
-                }){
-                    Icon(painter = image, contentDescription = null,modifier=Modifier.size(20.dp))
+                }) {
+                    Icon(
+                        imageVector = image,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
+                    )
                 }
             }
         )

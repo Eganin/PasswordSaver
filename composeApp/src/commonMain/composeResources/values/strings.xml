@@ -16,4 +16,8 @@
     <string name="input_password">Введите пароль</string>
     <string name="password_is_empty">Пароль пустой</string>
     <string name="remove_password">Удалить запись</string>
+    <string name="remove_master_password">Удалить мастер пароль</string>
+    <string name="remove_master_password_question">Удалить мастер пароль?</string>
+    <string name="yes_answer">Да</string>
+    <string name="no_answer">Нет</string>
 </resources>

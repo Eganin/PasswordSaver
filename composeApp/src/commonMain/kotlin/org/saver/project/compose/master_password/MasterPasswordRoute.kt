@@ -68,7 +68,8 @@ fun MasterPasswordScreen(
         TextFieldPassword(
             title = state.masterPassword,
             onValueChange = masterPasswordComponent::changeMasterPassword,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            textFieldModifier = Modifier.fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp),
             changePasswordVisibility = masterPasswordComponent::changePasswordVisibility,
             errorMessage = "",

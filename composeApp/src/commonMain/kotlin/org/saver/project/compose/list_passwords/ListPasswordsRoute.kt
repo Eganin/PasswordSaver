@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -17,6 +19,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,7 +33,10 @@ import org.saver.project.presentation.list_passwords.ListPasswordsComponent
 import org.saver.project.presentation.list_passwords.PreviewListPasswordsComponent
 import passwordsaver.composeapp.generated.resources.Res
 import passwordsaver.composeapp.generated.resources.login
+import passwordsaver.composeapp.generated.resources.no_answer
 import passwordsaver.composeapp.generated.resources.password
+import passwordsaver.composeapp.generated.resources.remove_master_password_question
+import passwordsaver.composeapp.generated.resources.yes_answer
 
 @Composable
 fun ListPasswordsRoute(
@@ -40,7 +46,13 @@ fun ListPasswordsRoute(
     val state = listPasswordsComponent.state.subscribeAsState().value
     Scaffold(
         floatingActionButton = {
-            CreatePasswordFAB(onClick = listPasswordsComponent::createPassword)
+            Column {
+                CreatePasswordFAB(onClick = listPasswordsComponent::createPassword)
+                Spacer(modifier = Modifier.height(16.dp))
+                RemoveMasterPasswordFAB(onClick = {
+                    listPasswordsComponent.changeVisibilityForDialog(visibility = true)
+                })
+            }
         },
         modifier = modifier
     ) {
@@ -55,6 +67,46 @@ fun ListPasswordsRoute(
             }
         }
     }
+
+    if (state.showDialogForDeleteMasterPassword) {
+        RemoveMasterPasswordDialog(listPasswordsComponent = listPasswordsComponent)
+    }
+}
+
+@Composable
+fun RemoveMasterPasswordDialog(listPasswordsComponent: ListPasswordsComponent) {
+    AlertDialog(
+        onDismissRequest = {
+            listPasswordsComponent.changeVisibilityForDialog(visibility = false)
+        },
+        confirmButton = {
+            Button(onClick = listPasswordsComponent::deleteMasterPassword) {
+                Text(
+                    text = stringResource(Res.string.yes_answer),
+                    modifier = Modifier.fillMaxWidth(),
+                    fontSize = 14.sp
+                )
+            }
+        },
+        dismissButton = {
+            Button(onClick = {
+                listPasswordsComponent.changeVisibilityForDialog(visibility = false)
+            }) {
+                Text(
+                    text = stringResource(Res.string.no_answer),
+                    modifier = Modifier.fillMaxWidth(),
+                    fontSize = 14.sp
+                )
+            }
+        },
+        title = {
+            Text(
+                text = stringResource(Res.string.remove_master_password_question),
+                modifier = Modifier.fillMaxWidth(),
+                fontSize = 22.sp
+            )
+        }
+    )
 }
 
 @Composable
@@ -95,10 +147,21 @@ private fun SavedPasswordCell(savedPassword: SavedPassword, modifier: Modifier =
 @Composable
 private fun CreatePasswordFAB(onClick: () -> Unit, modifier: Modifier = Modifier) {
     FloatingActionButton(
-        onClick = { onClick() },
+        onClick = onClick,
         modifier = modifier.size(64.dp)
     ) {
         Icon(Icons.Filled.Add, null)
+    }
+}
+
+@Composable
+fun RemoveMasterPasswordFAB(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    FloatingActionButton(
+        onClick = onClick,
+        modifier = modifier.size(64.dp),
+        backgroundColor = Color.Red
+    ) {
+        Icon(Icons.Filled.Close, null)
     }
 }
 

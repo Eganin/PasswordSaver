@@ -1,13 +1,15 @@
 package org.saver.project.compose.root
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import org.saver.project.compose.auth.AuthRoute
-import org.saver.project.compose.management_password.ManagementPasswordRoute
 import org.saver.project.compose.list_passwords.ListPasswordsRoute
+import org.saver.project.compose.management_password.ManagementPasswordRoute
 import org.saver.project.compose.master_password.MasterPasswordRoute
 import org.saver.project.presentation.root.RootComponent
 
@@ -23,6 +25,8 @@ fun RootScreen(rootComponent: RootComponent, modifier: Modifier = Modifier) {
                     AuthRoute(
                         authComponent = child.component,
                         modifier = Modifier.fillMaxSize()
+                            .navigationBarsPadding()
+                            .imePadding()
                     )
                 }
 
@@ -30,6 +34,8 @@ fun RootScreen(rootComponent: RootComponent, modifier: Modifier = Modifier) {
                     MasterPasswordRoute(
                         masterPasswordComponent = child.component,
                         modifier = Modifier.fillMaxSize()
+                            .navigationBarsPadding()
+                            .imePadding()
                     )
                 }
 
@@ -37,6 +43,8 @@ fun RootScreen(rootComponent: RootComponent, modifier: Modifier = Modifier) {
                     ListPasswordsRoute(
                         listPasswordsComponent = child.component,
                         modifier = Modifier.fillMaxSize()
+                            .navigationBarsPadding()
+                            .imePadding()
                     )
                 }
 
@@ -44,6 +52,8 @@ fun RootScreen(rootComponent: RootComponent, modifier: Modifier = Modifier) {
                     ManagementPasswordRoute(
                         managementPasswordComponent = child.component,
                         modifier = Modifier.fillMaxSize()
+                            .navigationBarsPadding()
+                            .imePadding()
                     )
                 }
             }

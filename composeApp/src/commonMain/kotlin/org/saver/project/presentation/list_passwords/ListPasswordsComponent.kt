@@ -3,9 +3,7 @@ package org.saver.project.presentation.list_passwords
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.lifecycle.doOnCreate
 import com.arkivanov.essenty.lifecycle.doOnResume
-import com.arkivanov.essenty.lifecycle.doOnStart
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -19,12 +17,15 @@ interface ListPasswordsComponent {
     val state: Value<ListPasswordsState>
     fun createPassword()
     fun editPassword(savedPassword: SavedPassword)
+    fun changeVisibilityForDialog(visibility: Boolean)
+    fun deleteMasterPassword()
 }
 
 class DefaultListPasswordsComponent(
     componentContext: ComponentContext,
     private val navigateToCreatePassword: () -> Unit,
     private val navigateToEditPassword: (SavedPassword) -> Unit,
+    private val navigateToAuth: () -> Unit,
 ) : ListPasswordsComponent, ComponentContext by componentContext {
     override val state = MutableValue(ListPasswordsState())
     private val savedPasswordsRepository: SavedPasswordsRepository = Inject.instance()
@@ -40,6 +41,19 @@ class DefaultListPasswordsComponent(
 
     override fun editPassword(savedPassword: SavedPassword) = navigateToEditPassword(savedPassword)
 
+    override fun changeVisibilityForDialog(visibility: Boolean) {
+        state.value = state.value.copy(showDialogForDeleteMasterPassword = visibility)
+    }
+
+    override fun deleteMasterPassword() {
+        scope.launch {
+            val isSuccess = savedPasswordsRepository.deleteMasterPassword()
+            if (isSuccess) {
+                navigateToAuth()
+            }
+        }
+    }
+
     private fun loadSavedPasswords() {
         scope.launch {
             val savedPasswords = savedPasswordsRepository.savedPasswords()
@@ -52,4 +66,6 @@ class PreviewListPasswordsComponent : ListPasswordsComponent {
     override val state = MutableValue(ListPasswordsState())
     override fun createPassword() {}
     override fun editPassword(savedPassword: SavedPassword) {}
+    override fun changeVisibilityForDialog(visibility: Boolean) {}
+    override fun deleteMasterPassword() {}
 }

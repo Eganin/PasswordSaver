@@ -5,7 +5,6 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
@@ -13,10 +12,10 @@ import kotlinx.serialization.Serializable
 import org.saver.project.domain.model.SavedPassword
 import org.saver.project.presentation.auth.AuthComponent
 import org.saver.project.presentation.auth.DefaultAuthComponent
-import org.saver.project.presentation.management_password.ManagementPasswordComponent
-import org.saver.project.presentation.management_password.DefaultManagementPasswordComponent
 import org.saver.project.presentation.list_passwords.DefaultListPasswordsComponent
 import org.saver.project.presentation.list_passwords.ListPasswordsComponent
+import org.saver.project.presentation.management_password.DefaultManagementPasswordComponent
+import org.saver.project.presentation.management_password.ManagementPasswordComponent
 import org.saver.project.presentation.master_password.DefaultMasterPasswordComponent
 import org.saver.project.presentation.master_password.MasterPasswordComponent
 
@@ -66,7 +65,7 @@ class DefaultRootComponent(
             is ScreenConfig.ManagementPassword -> {
                 RootComponent.Child.ManagementPasswordChild(
                     component = DefaultManagementPasswordComponent(
-                        componentContext=componentContext,
+                        componentContext = componentContext,
                         savedPassword = config.savedPassword,
                         navigateToBack = navigation::pop
                     )
@@ -87,12 +86,15 @@ class DefaultRootComponent(
             is ScreenConfig.ListPasswords -> {
                 RootComponent.Child.ListPasswordsChild(
                     component = DefaultListPasswordsComponent(
-                        componentContext=componentContext,
+                        componentContext = componentContext,
                         navigateToCreatePassword = {
                             navigation.pushNew(ScreenConfig.ManagementPassword())
                         },
                         navigateToEditPassword = {
                             navigation.pushNew(ScreenConfig.ManagementPassword(it))
+                        },
+                        navigateToAuth = {
+                            navigation.replaceAll(ScreenConfig.Auth)
                         }
                     )
                 )
@@ -107,7 +109,7 @@ sealed class ScreenConfig {
     data object Auth : ScreenConfig()
 
     @Serializable
-    data class ManagementPassword(val savedPassword: SavedPassword?=null) : ScreenConfig()
+    data class ManagementPassword(val savedPassword: SavedPassword? = null) : ScreenConfig()
 
     @Serializable
     data object ListPasswords : ScreenConfig()

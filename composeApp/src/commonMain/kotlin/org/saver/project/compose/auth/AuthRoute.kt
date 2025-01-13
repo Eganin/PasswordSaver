@@ -58,7 +58,8 @@ private fun AuthScreen(
                 TextFieldPassword(
                     title = state.masterPassword,
                     onValueChange = authComponent::changeMasterPassword,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    textFieldModifier = Modifier.fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp),
                     changePasswordVisibility = authComponent::changePasswordVisibility,
                     errorMessage = "",

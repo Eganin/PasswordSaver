@@ -1,6 +1,7 @@
 package org.saver.project.data.repository.saved_passwords.data_store
 
 import com.russhwolf.settings.Settings
+import com.russhwolf.settings.serialization.removeValue
 import com.russhwolf.settings.set
 import org.saver.project.data.db.SavedPasswordsDatabase
 import org.saver.project.domain.model.SavedPassword
@@ -9,10 +10,11 @@ import org.saver.project.domain.model.toDomainModel
 
 interface LocalSavedPasswordsDataStore {
     fun saveMasterPassword(password: String): Boolean
+    fun deleteMasterPassword(): Boolean
     fun getMasterPassword(): String
     suspend fun getSavedPasswords(): List<SavedPassword>
     suspend fun insertSavedPasswords(savedPassword: SavedPassword)
-    suspend fun deleteSavedPasswords(id:Long)
+    suspend fun deleteSavedPasswords(id: Long)
 }
 
 internal class LocalSavedPasswordsDataStoreImpl(
@@ -22,6 +24,11 @@ internal class LocalSavedPasswordsDataStoreImpl(
     override fun saveMasterPassword(password: String): Boolean {
         localStorage[MASTER_KEY] = password
         return localStorage.getStringOrNull(MASTER_KEY) != null
+    }
+
+    override fun deleteMasterPassword(): Boolean {
+        localStorage.removeValue<String>(key = MASTER_KEY)
+        return localStorage.getStringOrNull(MASTER_KEY) == null
     }
 
     override fun getMasterPassword(): String {
