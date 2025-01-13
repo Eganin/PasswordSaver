@@ -9,6 +9,7 @@ import org.saver.project.domain.repository.SavedPasswordsRepository
 interface MasterPasswordComponent {
     val state: Value<MasterPasswordState>
     fun changeMasterPassword(password: String)
+    fun changePasswordVisibility(visibility: Boolean)
     fun compareMasterPassword()
 }
 
@@ -31,6 +32,10 @@ class DefaultMasterPasswordComponent(
         state.value = state.value.copy(masterPasswordIsCorrect = masterPasswordIsCorrect)
         if (masterPasswordIsCorrect) navigateToListPasswords()
     }
+
+    override fun changePasswordVisibility(visibility: Boolean) {
+        state.value = state.value.copy(passwordVisibility = visibility)
+    }
 }
 
 class PreviewMasterPasswordComponent : MasterPasswordComponent {
@@ -38,4 +43,6 @@ class PreviewMasterPasswordComponent : MasterPasswordComponent {
     override fun changeMasterPassword(password: String) {}
 
     override fun compareMasterPassword() {}
+
+    override fun changePasswordVisibility(visibility: Boolean) {}
 }

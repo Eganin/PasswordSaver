@@ -11,6 +11,8 @@ interface AuthComponent {
 
     fun changeMasterPassword(masterPassword: String)
 
+    fun changePasswordVisibility(visibility: Boolean)
+
     fun saveMasterPassword()
 }
 
@@ -37,6 +39,10 @@ class DefaultAuthComponent(
         navigateToListPasswords()
     }
 
+    override fun changePasswordVisibility(visibility: Boolean) {
+        state.value = state.value.copy(passwordVisibility = visibility)
+    }
+
     private fun checkMasterPassword() {
         val isAuth = savedPasswordsRepository.isAuth()
         if (isAuth) {
@@ -53,4 +59,6 @@ class PreviewAuthComponent : AuthComponent {
     override fun changeMasterPassword(masterPassword: String) {}
 
     override fun saveMasterPassword() {}
+
+    override fun changePasswordVisibility(visibility: Boolean) {}
 }

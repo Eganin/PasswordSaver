@@ -1,6 +1,7 @@
 package org.saver.project.presentation.master_password
 
 data class MasterPasswordState(
-    val masterPassword:String="",
-    val masterPasswordIsCorrect:Boolean=true,
+    val masterPassword: String = "",
+    val masterPasswordIsCorrect: Boolean = true,
+    val passwordVisibility: Boolean = false,
 )

@@ -12,7 +12,6 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,11 +20,13 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.saver.project.compose.management_password.TextFieldPassword
 import org.saver.project.presentation.auth.AuthComponent
 import org.saver.project.presentation.auth.AuthState
 import org.saver.project.presentation.auth.PreviewAuthComponent
 import passwordsaver.composeapp.generated.resources.Res
 import passwordsaver.composeapp.generated.resources.input_master_password
+import passwordsaver.composeapp.generated.resources.input_password
 import passwordsaver.composeapp.generated.resources.save
 
 @Composable
@@ -54,11 +55,16 @@ private fun AuthScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                TextField(
-                    value = state.masterPassword,
+                TextFieldPassword(
+                    title = state.masterPassword,
                     onValueChange = authComponent::changeMasterPassword,
                     modifier = Modifier.fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                        .padding(start = 16.dp, end = 16.dp),
+                    changePasswordVisibility = authComponent::changePasswordVisibility,
+                    errorMessage = "",
+                    isError = false,
+                    passwordVisibility = state.passwordVisibility,
+                    placeholderText = stringResource(Res.string.input_password)
                 )
 
                 Spacer(modifier = Modifier.weight(1f))

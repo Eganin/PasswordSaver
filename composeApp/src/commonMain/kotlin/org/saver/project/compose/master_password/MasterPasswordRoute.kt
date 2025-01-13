@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,12 +16,14 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.saver.project.compose.management_password.TextFieldPassword
 import org.saver.project.presentation.master_password.MasterPasswordComponent
 import org.saver.project.presentation.master_password.MasterPasswordState
 import org.saver.project.presentation.master_password.PreviewMasterPasswordComponent
 import passwordsaver.composeapp.generated.resources.Res
 import passwordsaver.composeapp.generated.resources.input_master_password
 import passwordsaver.composeapp.generated.resources.input_master_password_incorrect
+import passwordsaver.composeapp.generated.resources.input_password
 import passwordsaver.composeapp.generated.resources.next
 
 @Composable
@@ -64,11 +65,16 @@ fun MasterPasswordScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        TextField(
-            value = state.masterPassword,
+        TextFieldPassword(
+            title = state.masterPassword,
             onValueChange = masterPasswordComponent::changeMasterPassword,
             modifier = Modifier.fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                .padding(start = 16.dp, end = 16.dp),
+            changePasswordVisibility = masterPasswordComponent::changePasswordVisibility,
+            errorMessage = "",
+            isError = false,
+            passwordVisibility = state.passwordVisibility,
+            placeholderText = stringResource(Res.string.input_password)
         )
 
         Spacer(modifier = Modifier.weight(1f))

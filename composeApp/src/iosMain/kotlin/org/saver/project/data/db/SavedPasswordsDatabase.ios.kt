@@ -2,7 +2,10 @@ package org.saver.project.data.db
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import org.saver.project.core.platform.PlatformConfiguration
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
@@ -17,7 +20,9 @@ actual class RoomDbFactory actual constructor(platformConfiguration: PlatformCon
         val dbFilePath = documentDirectory() + "/my_room.db"
         return Room.databaseBuilder<SavedPasswordsDatabase>(
             name = dbFilePath,
-        )
+        ).setDriver(BundledSQLiteDriver())
+            .setQueryCoroutineContext(Dispatchers.IO)
+            .fallbackToDestructiveMigration(true)
     }
 
     @OptIn(ExperimentalForeignApi::class)
